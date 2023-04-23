@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Navbar from "../../components/organisms/Navbar";
 import MainBanner from "../../components/organisms/MainBanner";
 import TransactionStep from "../../components/organisms/TransactionStep";
-import FeaturedGame from "../../components/FeaturedGame";
+import FeaturedGame from "../../components/organisms/FeaturedGame";
 
 export default function Home() {
   useEffect(() => {
