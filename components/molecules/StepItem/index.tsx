@@ -1,5 +1,5 @@
 import Image from "next/image";
-interface StepItemProps {
+export interface StepItemProps {
   icon: "step1" | "step2" | "step3";
   title: string;
   desc1: string;
