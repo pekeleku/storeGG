@@ -14,6 +14,8 @@ import "../styles/transactions.css";
 import "../styles/transactions-detail.css";
 import "../styles/edit-profile.css";
 import "../styles/navbar-log-in.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -43,6 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
         crossOrigin="anonymous"
       ></script>
       <Component {...pageProps} />
+      <ToastContainer />
     </>
   );
 }

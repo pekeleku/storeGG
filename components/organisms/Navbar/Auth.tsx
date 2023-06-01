@@ -1,9 +1,33 @@
 import Link from "next/link";
-interface AuthProps {
-  isLogin?: boolean;
-}
-export default function Auth(props: Partial<AuthProps>) {
-  const { isLogin } = props;
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
+import { JWTPayloadsTypes, UserTypes } from "@/services/data-types";
+import { useRouter } from "next/router";
+
+export default function Auth() {
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState({
+    avatar: "",
+  });
+  const router = useRouter();
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      const jwtToken = atob(token);
+      const payload: JWTPayloadsTypes = jwtDecode(jwtToken);
+      const user: UserTypes = payload.player;
+      const IMG = process.env.NEXT_PUBLIC_IMG;
+      user.avatar = `${IMG}/$${user.avatar}`;
+      setIsLogin(true);
+      setUser(user);
+    }
+  }, []);
+  const onLogout = () => {
+    Cookies.remove("token");
+    router.push("/");
+    setIsLogin(false);
+  };
   if (isLogin) {
     return (
       <li className="nav-item my-auto dropdown d-flex">
@@ -18,7 +42,7 @@ export default function Auth(props: Partial<AuthProps>) {
             aria-expanded="false"
           >
             <img
-              src="/img/avatar-1.png"
+              src={user.avatar}
               className="rounded-circle"
               width="40"
               height="40"
@@ -54,7 +78,8 @@ export default function Auth(props: Partial<AuthProps>) {
             <li>
               <Link
                 className="dropdown-item text-lg color-palette-2"
-                href="/sign-in"
+                href="/"
+                onClick={onLogout}
               >
                 Log Out
               </Link>
